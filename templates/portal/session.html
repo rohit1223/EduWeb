@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>session</title>
+</head>
+<body>
+<script src='//static.opentok.com/v2/js/opentok.min.js'></script> 
+<script>
+  var session;
+  var connectionCount = 0;
+  var token = 'T1==cGFydG5lcl9pZD00NTM3Nzc1MiZzaWc9MDhkYmQ4OTFmN2QxMDY3Y2JlMzlhYTY2OTQxZGNjMzU5NGYzY2NhMDpyb2xlPXB1Ymxpc2hlciZzZXNzaW9uX2lkPTFfTVg0ME5UTTNOemMxTW41LU1UUTBOVEF4TWpjd05EQXpPSDVrVGk5NFEyODJRVWxvWjI1eE1XRXhlSEZTYW5KMU1UVi1VSDQmY3JlYXRlX3RpbWU9MTQ0NTAxNjYyNyZub25jZT0wLjU4NDk5Njc5ODYyMzg1NTgmZXhwaXJlX3RpbWU9MTQ0NTEwMzAyNw==';
+  function connect() {
+    // Replace apiKey and sessionId with your own values:
+    session = OT.initSession(apiKey, sessionId);
+    session.on({
+      connectionCreated: function (event) {
+        connectionCount++;
+        console.log(connectionCount + ' connections.');
+      },
+      connectionDestroyed: function (event) {
+        connectionCount--;
+        console.log(connectionCount + ' connections.');
+      },
+      sessionDisconnected: function sessionDisconnectHandler(event) {
+        // The event is defined by the SessionDisconnectEvent class
+        console.log('Disconnected from the session.');
+        document.getElementById('disconnectBtn').style.display = 'none';
+        if (event.reason == 'networkDisconnected') {
+          alert('Your network connection terminated.')
+        }
+      }
+    });
+    // Replace token with your own value:
+    session.connect(token, function(error) {
+      if (error) {
+        console.log('Unable to connect: ', error.message);
+      } else {
+        document.getElementById('disconnectBtn').style.display = 'block';
+        console.log('Connected to the session.');
+        connectionCount = 1;
+      }
+    });
+  }
+
+  function disconnect() {
+    session.disconnect();
+  }
+
+  connect();
+  
+</script>
+</body>
+</html>

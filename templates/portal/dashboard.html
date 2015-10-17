@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Dashboard</title>
+</head>
+<body>
+	<h1>
+		Hello World  {{session.category}}
+	</h1> <br/>
+	<form action="/portal/postquestion/" method="POST">{% csrf_token %}
+		Question : <input type="text" name="question">
+		Keywords : <input type="text" name="keywords">
+		<input type="submit" value="Submit Question">
+	</form>
+
+	<form action="/portal/verifyAnswer/" method="POST">{% csrf_token %}
+		Question : <input type="text" name="question" value="(a+b)^2" readonly>
+		Answer : <textarea type="text" name="answer"></textarea>
+		<input type="submit" value="Verify Answer">
+	</form>
+
+	<!-- <iframe frameborder="0" height="500" width="1000" id="video"></iframe> -->
+	<a href="/portal/user_logout/">Logout</a>
+ 	<script src="//developer.appear.in/scripts/appearin-sdk.0.0.4.min.js"></script>
+ 	<script>
+		var AppearIn = window.AppearIn 
+		var appearin = new AppearIn(); 
+		appearin.getRandomRoomName().then(function (roomName) {
+			var iframe = document.getElementById("video");
+			var roomName = roomName;
+			appearin.addRoomToIframe(iframe, roomName);
+		});
+
+// Callback-based workflow
+appearin.getRandomRoomName(function (err, roomName) {
+    // do something with the roomName
+});		
+ 	</script>
+</body>
+</html>
